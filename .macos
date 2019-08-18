@@ -5,9 +5,38 @@
 # Written by Joe Turner
 #
 
+
+#
+# macOS turdlet files
+#
+
 # Getting rid of .DS_Store turdlet files.  .DS_Store files is a file generated
 # by macOS that contains custom attributes of its containing folder.
 #
 # Prevent .DS_Store file creation for SMB/CIFS, AFP, NFS, and WebDAV shares.
 # See https://support.apple.com/en-us/HT1629
 defaults write com.apple.desktopservices DSDontWriteNetworkStores true
+
+#
+# Disable Spotlight 
+#
+
+# Spotlight is an indexing service that I never use.  After any major OS update, kernel panic,
+# or abrupt shutdown it will re-index from scratch.  Normally, I'd let it be, but it has
+# abused my mac too many times by running amok and hammering the CPU and disk.   
+
+# Disable spotlight using launchctl.  This keeps the mds agent from getting launched:
+sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.metadata.mds.plist
+
+# turn off Spotlight
+sudo mdutil -a -i off
+
+# Die. Die. Die.  Kill the indexer
+killall mds > /dev/null 2>&1
+
+# Stop indexing of ALL volumes:
+sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Volumes"
+
+# Delete spotlight index (this was a whopping 2G+ on my laptop.)
+sudo rm -rf /.Spotlight-V100/*
+
