@@ -1,0 +1,12 @@
+# My Global .gitignore
+#
+# A local .gitignore is usually placed in the root directory of a project.  This is
+# a global .gitignore file that tells git to ignore the files across *ALL* 
+# repositories.
+
+.DS_Store
+Desktop.ini
+.nfs*
+.Trashes
+.Spotlight-V100
+._*
