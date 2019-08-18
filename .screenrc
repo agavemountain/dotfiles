@@ -1,0 +1,11 @@
+# screen resource configuration file
+# save this in ~/.screenrc
+
+# No annoying startup message
+startup_message off
+
+# Setup screens
+
+screen -t 'shell' 0 bash # Make first screen for running server
+screen -t 'console' 1 bash # Make screen for running tests
+screen -t 'terminal' 2 bash # Make screen for general work i.e. running git commands
