@@ -1,0 +1,13 @@
+#!/bin/bash
+#
+# Mac OS system settings.
+#
+# Written by Joe Turner
+#
+
+# Getting rid of .DS_Store turdlet files.  .DS_Store files is a file generated
+# by macOS that contains custom attributes of its containing folder.
+#
+# Prevent .DS_Store file creation for SMB/CIFS, AFP, NFS, and WebDAV shares.
+# See https://support.apple.com/en-us/HT1629
+defaults write com.apple.desktopservices DSDontWriteNetworkStores true
