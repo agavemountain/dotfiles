@@ -1,0 +1,12 @@
+#!/bin/bash
+# This file contains information to alias an ethernet
+# nic to an additional network.  A far better method would be 
+# an actual ethernet, properly configured switch, etc, but
+# when you are cheap or working around restrictive IT departments,
+# sometimes you have to make due.
+
+#
+# Setup access to private network for embedded devices (testing)
+#
+sudo ifconfig eno1:1 192.168.3.2 netmask 255.255.255.0
+
