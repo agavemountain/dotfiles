@@ -1,0 +1,109 @@
+#!/bin/bash
+#
+# Written by Joe Turner <joe@agavemountain.com>
+#
+# Mount remote NFS drives based on a configuration script.  When 
+# moving between virtual hosts, laptops, and different operating
+# systems, it's a pain to try to remember the essoteric NFS commands.
+# This is especially painful, given different locations which may have different 
+# NAS/SAN systems.
+#
+# This allows us to have a simple configuration file that can be used to 
+# mount remote NFS drives.
+#  
+
+PWD=`pwd`
+CFG_NFS=".nfs_mounts"
+
+usage() 
+{
+    echo "Usage: gnfs <action>"
+    echo "       --unmount    unmount drives"
+    echo "       --mount      mount drives"
+    echo 
+    df -t nfs
+    echo
+    exit 1
+}
+
+if [ $# -eq 0 ]; then
+    echo "No arguments provided"
+  usage
+fi
+
+if [ "$1" == "--mount"  ]; then
+  echo "Mount drives"
+  MOUNT=1
+fi
+
+if [ "$1" == "--unmount"  ]; then
+  echo "Unmount drives"
+  UNMOUNT=1
+fi
+
+if [ -z "$MOUNT" ]; then
+  if [ -z "$UNMOUNT" ]; then
+    echo "Invalid argument."
+    usage
+  fi
+fi
+
+ALREADY_MOUNTED=`df -t nfs`
+echo "*** CURRENT NFS MOUNTS: ***"
+echo "${ALREADY_MOUNTED}"
+
+if [ -f "$CFG_NFS" ]; then
+    echo "** $CFG_NFS exists (processing)"
+    lines=`cat $CFG_NFS`
+    for line in $lines; do
+      echo "NFS REMOTE: $line" 
+      DEST=`basename $line`
+
+      # check to see if it is already mounted.
+      grep "$line" <<< $ALREADY_MOUNTED
+      check=$?
+      if [ -n "$MOUNT" ]; then
+        if [ "$check" -eq 0 ]; then
+          # do things for success
+          echo "ALREADY MOUNTED: $line (skipping)."
+        else
+          # do other things for failure
+          echo "-- MOUNTING : $line at $DEST"
+          echo "sudo mount -t nfs -o resvport,rw $line ${DEST}"
+          mkdir -p ${DEST}
+          sudo mount -t nfs -o resvport,rw $line ${DEST}
+        fi
+      fi
+
+      if [ -n "$UNMOUNT" ]; then
+        if [ "$check" -eq 0 ]; then
+          # do things for success
+          echo "ALREADY MOUNTED: $line (unmounting)."
+          echo "sudo umount ${DEST}"
+          sudo umount ${DEST}
+        else
+          # do other things for failure
+          echo "NOT MOUNTED: $line (skipping)."
+        fi
+      fi
+
+    done
+else 
+    echo "$CFG_NFS does not exist"
+fi
+
+echo
+echo "** [NFS MOUNTS] **"
+df -k | grep -i ":"
+
+
+
+# echo $OSTYPE
+# case "$OSTYPE" in
+#   solaris*) echo "SOLARIS" ;;
+#   darwin*)  echo "OSX" ;; 
+#   linux*)   echo "LINUX" ;;
+#   bsd*)     echo "BSD" ;;
+#   msys*)    echo "WINDOWS" ;;
+#   *)        echo "unknown: $OSTYPE" ;;
+# esac
