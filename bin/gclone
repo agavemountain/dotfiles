@@ -1,0 +1,78 @@
+#!/bin/bash
+#
+# Written by Joe Turner <joe@agavemountain.com>
+#
+# Given a configuration file in the current working directory, 
+# This script will recursively clone a bunch of remote git 
+# repositories.
+#
+# This script will check to see if the repository exists on the 
+# local disk, and if not, it will attempt to clone from the 
+# remote server.
+#
+
+CFG_GITHUB=".github-repos"
+CFG_LOCAL=".local-repos"
+
+# Look for Github.com repositories and clone if necessary
+if [ -f "$CFG_GITHUB" ]; then
+    echo "** $CFG_GITHUB exists (processing)"
+    lines=`cat $CFG_GITHUB`
+    for line in $lines; do
+        echo "GITHUB REPO: $line"
+        GUSER=`dirname "$line"`
+        GREPO=`basename "$line"`
+        echo "${GUSER} : ${GREPO}"
+
+        if [ ! -d "$line" ] 
+        then
+            echo "Directory $line DOES NOT exists.  Cloning git repo."
+            if [ ! -d "${GUSER}" ] 
+            then 
+                echo "${GUSER} DOES NOT exist.  Creating."
+                mkdir -p $GUSER
+            fi
+            cd $GUSER
+            echo "git clone git@github.com:$line.git"
+            git clone git@github.com:$line.git
+            cd ..
+        else
+            echo "$line exists. skipping"
+        fi
+    done
+else 
+    echo "** $CFG_GITHUB does not exist (skipping)"
+fi
+
+# Look for local repositories and clone if necessary
+if [ -f "$CFG_LOCAL" ]; then
+    echo "** $CFG_LOCAL exists (processing)"
+    lines=`cat $CFG_LOCAL`
+    for line in $lines; do
+        echo "LOCAL REPO: $line"
+
+        FILENAME=$(basename -- "$line")
+        # strip off .git extension
+        FILENAME="${FILENAME%.*}"
+        echo " -- : $FILENAME"
+
+        if [ ! -d "local/$FILENAME" ] 
+        then
+            echo "Directory local/$FILENAME DOES NOT exists.  Cloning git repo."
+            if [ ! -d "local" ] 
+            then 
+                echo "local DOES NOT exist.  Creating."
+                mkdir -p local
+            fi
+            cd local
+            echo "git clone $line"
+            git clone $line
+            cd ..
+        else
+            echo "local/$FILENAME exists. skipping"
+        fi
+    done
+else 
+    echo "$CFG_LOCAL does not exist"
+fi
+
