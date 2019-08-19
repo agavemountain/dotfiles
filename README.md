@@ -1,7 +1,10 @@
 # Joe's Dirty Little Dotfiles
 
-This repository contains my configuration dot files and shell scripts
-to automate the installation and tedious tasks.
+As I get older, my brain gets softer. 
+
+This is a collection of scripts and configuration files 
+that I use to setup and abuse development workstations and 
+servers.
 
 This is a work in progress.  This repository will grow as I normalize 
 my configurations between Mac OS, Ubuntu, CentOS, gentoo, and other 
