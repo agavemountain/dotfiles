@@ -7,7 +7,11 @@
 #
 # 
 
-if [-f "$HOME/.networks" ]; then
+if [ -f "$HOME/.networks" ]; then
     echo "Setting up network aliases"
     $HOME/.networks
+else
+    echo "No network setup file found.  Create a .networks script in"
+    echo "your home directory with commands to bring up/down or alias"
+    echo "ethernet nics, wifi APs, etc."
 fi
