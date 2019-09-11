@@ -1,0 +1,61 @@
+#!/bin/bash
+#
+# Written by Joe Turner <joe@agavemountain.com>
+#
+#
+BRANCH_NAME=""
+
+# delete local branch.
+delete_local_branch()
+{
+    # Note -d is alias for --delete, delete branch if it has fully merged in it's 
+    # upstream branch.  -D is alias for --delete --force 
+    git branch -D $BRANCH_NAME
+    if [ $? -eq 0 ]; then
+        echo "Local branch $BRANCH_NAME deleted successfully."
+    else
+        echo "ERROR: failed to delete branch $BRANCH_NAME. Aborting."
+        exit 1
+    fi
+
+}
+
+delete_remote_branch()
+{
+    # Delete remote branch
+    # As of Git v1.7.0, you can delete a remote branch using 
+    git push origin --delete $BRANCH_NAME
+
+    #otherwise use:
+    # git push <remote_name> :<branch_name>
+    if [ $? -eq 0 ]; then
+        echo "remote branch $BRANCH_NAME deleted successfully."
+    else
+        echo "ERROR: failed to delete remote branch $BRANCH_NAME. Aborting."
+        exit 1
+    fi
+}
+
+ARGS=$#
+if [ "$ARGS" -ne "1" ] 
+then
+    echo "Invalid number of arguments: $ARGS"
+    echo "Syntax: $0 <branch_name>"
+    exit
+fi 
+
+BRANCH_NAME=$1
+
+echo "This will delete a branch in the local repository as well"
+echo "as the remote repository (origin).  Are you sure you want"
+echo "to delete this branch: $BRANCH_NAME ?"
+
+read -r -p "Are you sure? [y/N] " response
+case "$response" in
+    [yY][eE][sS]|[yY]) 
+        delete_local_branch
+        delete_remote_branch
+        ;;
+    *)
+        ;;
+esac
