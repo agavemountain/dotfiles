@@ -7,23 +7,23 @@
 #
 
 sudo apt update
-sudo apt upgrade
+#sudo apt upgrade
 
 # install prequisites
 sudo apt install curl  -y
 
 # if the visual studio code repository hasn't been setup
 # set up
-if [ ! -f /etc/apt/trusted.gpg.d/microsoft.gpg ]; then
-    echo "Setting up Visual Studio Repository..."
-    curl https://packages.microsoft/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-    sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
-    sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
-
-    # install it. 
-    sudo apt-get update
-    sudo apt-get install code # or code-insiders
-fi
+#if [ ! -f /etc/apt/trusted.gpg.d/microsoft.gpg ]; then
+#    echo "Setting up Visual Studio Repository..."
+#    curl https://packages.microsoft/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+#    sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+#    sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+#
+#    # install it. 
+#    sudo apt-get update
+#    sudo apt-get install code # or code-insiders
+#fi
 
 #install git subversion and CVS
 sudo apt-get install git subversion cvs -y 
@@ -50,9 +50,9 @@ sudo apt install cmake -y
 sudo apt install screen -y 
 
 # install jdk
-sudo apt install openjdk-8-jdk 
+#sudo apt install openjdk-8-jdk 
 
 # install maven
-sudo apt install maven
+#sudo apt install maven
 
 sudo apt-get update
