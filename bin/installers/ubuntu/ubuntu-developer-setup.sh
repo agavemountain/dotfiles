@@ -49,10 +49,5 @@ sudo apt install cmake -y
 # install screen
 sudo apt install screen -y 
 
-# install jdk
-#sudo apt install openjdk-8-jdk 
-
-# install maven
-#sudo apt install maven
 
 sudo apt-get update
