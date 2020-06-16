@@ -19,3 +19,17 @@ function install {
 install git
 install curl
 install dialog
+install build-essential
+install checkinstall
+install gawk
+install gettext
+install flex
+install bison 
+install indent
+install texinfo
+
+install cpputest
+install libcppunit-dev
+
+
+
