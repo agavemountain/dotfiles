@@ -4,6 +4,8 @@
 #
 #
 
+sudo apt-get update
+
 # install a package if not already installed
 function install {
   which $1 &> /dev/null
@@ -30,6 +32,20 @@ install texinfo
 
 install cpputest
 install libcppunit-dev
+install cmake
+install build-dep 
+install libncurses-dev 
+install openssl-dev 
+install libssl-dev 
+install dkms 
+install libelf-dev
+
+# for building u-boot
+install u-boot-tools
+
+# device trees
+install device-tree-compiler
+
 
 
 
