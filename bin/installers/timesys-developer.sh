@@ -18,6 +18,10 @@ function install {
   fi
 }
 
+function fetch_timesys {
+    curl https://github.com/PeopleNet/pmg-rfs-packages/releases/download/0.0.1/twr_vf600-development-environment.sh
+}
+
 install git
 install curl
 install dialog
@@ -39,6 +43,10 @@ install openssl-dev
 install libssl-dev 
 install dkms 
 install libelf-dev
+
+install libc6-dev-i386 
+install lib32z1 
+install lib32ncurses5
 
 # for building u-boot
 install u-boot-tools
