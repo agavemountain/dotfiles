@@ -52,6 +52,7 @@ install xutils-dev
 install devscripts
 install dh-make
 install libcurl4-openssl-dev
+install libusb-dev
 
 # for building u-boot
 install u-boot-tools
