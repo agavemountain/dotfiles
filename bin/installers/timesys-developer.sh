@@ -48,6 +48,11 @@ install libc6-dev-i386
 install lib32z1 
 install lib32ncurses5
 
+install xutils-dev
+install devscripts
+install dh-make
+install libcurl4-openssl-dev
+
 # for building u-boot
 install u-boot-tools
 
